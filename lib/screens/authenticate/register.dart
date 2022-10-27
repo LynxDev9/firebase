@@ -5,14 +5,15 @@ import 'package:brew_crew/shared/loading.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function toggleShowSignIn;
-  const SignIn({super.key, required this.toggleShowSignIn});
+  const Register({super.key, required this.toggleShowSignIn});
+
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   //email & password state
@@ -27,16 +28,16 @@ class _SignInState extends State<SignIn> {
         ? Loading()
         : Scaffold(
             appBar: AppBar(
-              title: const Text('Sign in to Brew Crewssss'),
+              title: const Text('Sign up to Brew Crew'),
               actions: [
                 TextButton.icon(
                   onPressed: () => widget.toggleShowSignIn(),
                   icon: const Icon(
-                    Icons.person_add,
+                    Icons.login,
                     color: Colors.white,
                   ),
                   label: const Text(
-                    'Register',
+                    'Sign in',
                     style: TextStyle(color: Colors.white),
                   ),
                 )
@@ -66,8 +67,9 @@ class _SignInState extends State<SignIn> {
                           height: 20,
                         ),
                         TextFormField(
-                          decoration:
-                              inputDecoration.copyWith(hintText: 'Password'),
+                          decoration: inputDecoration.copyWith(
+                            hintText: 'Password',
+                          ),
                           obscureText: true,
                           onChanged: (value) => setState(() {
                             _password = value;
@@ -86,17 +88,17 @@ class _SignInState extends State<SignIn> {
                                 _isLoading = true;
                               });
                               UserModel? res =
-                                  await _auth.signIn(_email, _password);
+                                  await _auth.register(_email, _password);
                               if (res == null) {
                                 setState(() {
                                   _isLoading = false;
-                                  _error = 'Invalid loging';
+                                  _error = 'Invalid registration';
                                 });
                               }
                             }
                           },
-                          label: const Text('Sign in'),
-                          icon: const Icon(Icons.login),
+                          label: const Text('Sign up'),
+                          icon: const Icon(Icons.person_add),
                         ),
                         const SizedBox(
                           height: 20,
