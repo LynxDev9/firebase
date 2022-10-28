@@ -1,4 +1,5 @@
 import 'package:brew_crew/models/user.dart' as md;
+import 'package:brew_crew/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -34,7 +35,7 @@ class AuthService {
   }
 
   //sign in with email & password
- Future signIn(String email, String password) async {
+  Future signIn(String email, String password) async {
     try {
       UserCredential res = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -46,11 +47,21 @@ class AuthService {
       return null;
     }
   }
+
   //register in with email & password
   Future register(String email, String password) async {
     try {
       UserCredential res = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      //add default brew for the user
+      if (res.user != null) {
+        if (kDebugMode) {
+          print('add default brew for the user');
+        }
+        await DatabaseService(uid: res.user!.uid).setUserData('0', 'name dfer', 100);
+      } else {
+        return null;
+      }
       return _userFromFirebaseUser(res.user);
     } on Exception catch (e) {
       if (kDebugMode) {
