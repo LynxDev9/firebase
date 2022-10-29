@@ -16,9 +16,12 @@ class _BrewListState extends State<BrewList> {
   Widget build(BuildContext context) {
     final brews = Provider.of<QuerySnapshot?>(context);
     print('↧↧↧↧↧↧↧↧↧↧↧↧ bellow ↧↧↧↧↧↧↧↧↧');
-    // for(var doc in brews.docs){
+    if (brews != null) {
+      for (var doc in brews.docs) {
+        print(doc.data);
+      }
+    }
 
-    // }
     return Center(child: const Text('home'));
   }
 }
