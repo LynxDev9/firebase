@@ -1,4 +1,5 @@
 import 'package:brew_crew/models/user.dart';
+import 'package:brew_crew/providers.dart/brews_providers.dart';
 import 'package:brew_crew/screens/wrapper.dart';
 import 'package:brew_crew/services/auth.dart';
 import 'package:brew_crew/services/database.dart';
@@ -28,10 +29,7 @@ class MyApp extends StatelessWidget {
           initialData: null,
           value: AuthService().user,
         ),
-        StreamProvider<QuerySnapshot?>.value(
-          initialData: null,
-          value: DatabaseService().brews,
-        )
+        ChangeNotifierProvider(create: (ctx) => Brews()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
